@@ -8,7 +8,7 @@ export default function Home() {
   const [question, setQuestion] = useState('')
   const [answers, setAnswers] = useState([])
 
-  async function analyzeDoc(text) {
+  async function analyzeDoc(text: string) {
     setLoading(true)
     try {
       const res = await fetch('/api/analyze', {
