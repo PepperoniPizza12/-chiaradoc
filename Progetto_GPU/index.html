@@ -1,0 +1,618 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>RTX 4090 — GPU Dashboard</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- HEADER -->
+  <header>
+    <div class="header-inner">
+      <div class="logo">
+        <span class="logo-icon">&#9632;</span>
+        <span class="logo-text">RTX <span class="neon">4090</span> COMMAND CENTER</span>
+      </div>
+      <div class="status-bar">
+        <span class="dot active"></span>
+        <span>GPU ONLINE</span>
+        <span class="separator">|</span>
+        <span id="clock"></span>
+      </div>
+    </div>
+  </header>
+
+  <!-- HERO STATS -->
+  <section class="hero">
+    <div class="gpu-visual">
+      <div class="gpu-card">
+        <div class="gpu-label">NVIDIA</div>
+        <div class="gpu-name">GeForce RTX<br/><span class="neon big">4090</span></div>
+        <div class="gpu-specs">
+          <span>16,384 CUDA Cores</span>
+          <span>24 GB GDDR6X</span>
+          <span>1008 GB/s Bandwidth</span>
+        </div>
+        <div class="gpu-glow"></div>
+      </div>
+    </div>
+
+    <div class="stat-grid">
+      <div class="stat-card">
+        <div class="stat-label">VRAM</div>
+        <div class="stat-value neon">24 GB</div>
+        <div class="bar-wrap"><div class="bar" style="width:96%"></div></div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">TDP</div>
+        <div class="stat-value neon">450 W</div>
+        <div class="bar-wrap"><div class="bar" style="width:80%"></div></div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">AI TFLOPS</div>
+        <div class="stat-value neon">1,321</div>
+        <div class="bar-wrap"><div class="bar" style="width:100%"></div></div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">RT TFLOPS</div>
+        <div class="stat-value neon">191.1</div>
+        <div class="bar-wrap"><div class="bar" style="width:88%"></div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- EARNING SECTION -->
+  <section class="earning-section">
+    <h2 class="section-title">[ COME <span class="neon">GUADAGNARE</span> CON LA TUA GPU ]</h2>
+    <div class="card-grid">
+
+      <div class="earn-card">
+        <div class="earn-icon">&#129504;</div>
+        <h3>AI Training &amp; Inference</h3>
+        <p>Affitta la tua RTX 4090 su piattaforme come <strong>Vast.ai</strong> o <strong>RunPod</strong> per eseguire training di modelli AI. Con 24 GB VRAM puoi gestire LLM da 13B+ parametri e guadagnare fino a <span class="neon">~$2–4/ora</span>.</p>
+        <ul>
+          <li>Fine-tuning di modelli LLaMA, Mistral, Stable Diffusion</li>
+          <li>Inference as-a-service per sviluppatori</li>
+          <li>Dataset processing &amp; embeddings</li>
+        </ul>
+      </div>
+
+      <div class="earn-card">
+        <div class="earn-icon">&#127917;</div>
+        <h3>Rendering 3D &amp; VFX</h3>
+        <p>Usa <strong>OctaneRender</strong>, <strong>Blender Cycles</strong> o <strong>DaVinci Resolve</strong> per offrire servizi di rendering professionale. I render farm remoti pagano per ogni frame elaborato.</p>
+        <ul>
+          <li>Architettura, product design, animazione</li>
+          <li>Video 4K/8K — color grading accelerato</li>
+          <li>NFT art &amp; generative 3D content</li>
+        </ul>
+      </div>
+
+      <div class="earn-card">
+        <div class="earn-icon">&#9728;</div>
+        <h3>Crypto Mining</h3>
+        <p>Con la RTX 4090 puoi fare mining di algoritmi resistenti agli ASIC come <strong>Kaspa (KAS)</strong> o <strong>Alephium (ALPH)</strong>. Hashrate stimato su KAS: ~1 TH/s.</p>
+        <ul>
+          <li>Kaspa: ~$1–3/giorno (varia col prezzo)</li>
+          <li>Mining pool: F2Pool, HeroMiners</li>
+          <li>Considera ROI vs costo elettricità</li>
+        </ul>
+      </div>
+
+      <div class="earn-card">
+        <div class="earn-icon">&#127760;</div>
+        <h3>Generative AI &amp; Immagini</h3>
+        <p>Genera immagini ad alta risoluzione con <strong>Stable Diffusion XL</strong>, <strong>Flux</strong> o <strong>ComfyUI</strong> e vendi le creazioni su <strong>Adobe Stock</strong>, <strong>Shutterstock</strong> o commissioni private.</p>
+        <ul>
+          <li>Batch generation ad alta velocita</li>
+          <li>Modelli custom LoRA per clienti</li>
+          <li>Contenuti per social media &amp; marketing</li>
+        </ul>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- CALCOLATORE PROFITTO AI -->
+  <section class="calc-section">
+    <h2 class="section-title">[ CALCOLATORE <span class="neon">PROFITTO AI</span> ]</h2>
+    <div class="calc-container">
+
+      <!-- Input controls -->
+      <div class="calc-controls">
+        <div class="calc-row">
+          <label class="calc-label">ORE DI NOLEGGIO</label>
+          <div class="input-wrap">
+            <input type="range" id="sliderOre" min="1" max="720" value="24"
+                   oninput="calcola()" class="neon-slider" />
+            <input type="number" id="inputOre" min="1" max="8760" value="24"
+                   oninput="syncSlider()" class="neon-input" />
+            <span class="input-unit">h</span>
+          </div>
+        </div>
+
+        <div class="calc-row">
+          <label class="calc-label">TARIFFA (€/ora)</label>
+          <div class="input-wrap">
+            <input type="range" id="sliderTariffa" min="10" max="400" value="50" step="5"
+                   oninput="calcola()" class="neon-slider" />
+            <input type="number" id="inputTariffa" min="0.10" max="4" value="0.50" step="0.05"
+                   oninput="syncSliderTariffa()" class="neon-input" />
+            <span class="input-unit">€</span>
+          </div>
+        </div>
+
+        <div class="calc-row">
+          <label class="calc-label">COSTO ELETTRICITA</label>
+          <div class="input-wrap">
+            <input type="range" id="sliderKwh" min="5" max="50" value="25" step="1"
+                   oninput="calcola()" class="neon-slider" />
+            <input type="number" id="inputKwh" min="0.05" max="0.50" value="0.25" step="0.01"
+                   oninput="syncSliderKwh()" class="neon-input" />
+            <span class="input-unit">€/kWh</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Result display -->
+      <div class="calc-result-panel">
+        <div class="result-ring-wrap">
+          <svg class="result-ring" viewBox="0 0 200 200">
+            <circle class="ring-bg" cx="100" cy="100" r="82" />
+            <circle class="ring-fill" id="ringFill" cx="100" cy="100" r="82"
+                    stroke-dasharray="515" stroke-dashoffset="515" />
+          </svg>
+          <div class="result-center">
+            <div class="result-label-sm">PROFITTO NETTO</div>
+            <div class="result-value neon" id="risultatoNetto">€0.00</div>
+            <div class="result-roi" id="risultatoRoi">ROI: 0%</div>
+          </div>
+        </div>
+
+        <div class="result-breakdown">
+          <div class="breakdown-row">
+            <span class="bd-label">Ricavo lordo</span>
+            <span class="bd-value neon" id="bdLordo">€0.00</span>
+          </div>
+          <div class="breakdown-row">
+            <span class="bd-label">Costo elettricita</span>
+            <span class="bd-value red" id="bdElettricita">-€0.00</span>
+          </div>
+          <div class="breakdown-sep"></div>
+          <div class="breakdown-row big">
+            <span class="bd-label">Totale netto</span>
+            <span class="bd-value neon" id="bdNetto">€0.00</span>
+          </div>
+          <div class="breakdown-row">
+            <span class="bd-label">Equivale a</span>
+            <span class="bd-value" id="bdEquiv">— giorni</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- GRAFICO RENDERING BENCHMARK -->
+  <section class="render-section">
+    <h2 class="section-title">[ BENCHMARK <span class="neon">RENDERING</span> — RTX 4090 VS NORMALE ]</h2>
+
+    <!-- Preset selector -->
+    <div class="render-presets">
+      <span class="preset-label">SCENARIO:</span>
+      <button class="preset-btn active" data-preset="short"  onclick="setPreset('short',  this)">Video 1 min 1080p</button>
+      <button class="preset-btn"        data-preset="medium" onclick="setPreset('medium', this)">Film 10 min 4K</button>
+      <button class="preset-btn"        data-preset="long"   onclick="setPreset('long',   this)">Cortometraggio 30 min 8K</button>
+      <button class="preset-btn"        data-preset="custom" onclick="setPreset('custom', this)">Personalizzato</button>
+    </div>
+
+    <!-- Custom input (hidden by default) -->
+    <div class="render-custom" id="renderCustom" style="display:none">
+      <div class="custom-row">
+        <label class="calc-label">DURATA VIDEO (min)</label>
+        <input type="number" id="customMin" value="5" min="1" class="neon-input" oninput="recalcPreset()" />
+      </div>
+      <div class="custom-row">
+        <label class="calc-label">RISOLUZIONE</label>
+        <select id="customRes" class="neon-select" onchange="recalcPreset()">
+          <option value="1">1080p</option>
+          <option value="4">4K</option>
+          <option value="16">8K</option>
+        </select>
+      </div>
+      <div class="custom-row">
+        <label class="calc-label">FPS</label>
+        <select id="customFps" class="neon-select" onchange="recalcPreset()">
+          <option value="24">24 fps</option>
+          <option value="30">30 fps</option>
+          <option value="60">60 fps</option>
+        </select>
+      </div>
+    </div>
+
+    <!-- Chart area -->
+    <div class="render-chart-wrap">
+      <div class="chart-area" id="chartArea">
+
+        <!-- Y-axis labels -->
+        <div class="chart-yaxis" id="chartYaxis"></div>
+
+        <!-- Bars -->
+        <div class="chart-bars" id="chartBars">
+          <!-- GPU rows injected by JS -->
+        </div>
+
+        <!-- Time badge -->
+        <div class="chart-badge" id="chartBadge" style="opacity:0">
+          <span class="badge-icon">&#9889;</span>
+          <span id="badgeText">RTX 4090 e <strong>X</strong> volte piu veloce</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Render button -->
+    <div class="render-btn-wrap">
+      <button class="btn-render" id="btnRender" onclick="startRender()">
+        <span class="btn-render-inner">
+          <span class="render-icon">&#9654;</span>
+          RENDERIZZA
+        </span>
+        <span class="btn-glow"></span>
+      </button>
+      <div class="render-status" id="renderStatus"></div>
+    </div>
+
+  </section>
+
+  <!-- AI SIMULATION BUTTON -->
+  <section class="sim-section">
+    <h2 class="section-title">[ SIMULATORE <span class="neon">AI COMPUTE</span> ]</h2>
+    <div class="sim-container">
+      <div class="sim-display" id="simDisplay">
+        <div class="sim-line" id="simOutput">Pronto. Premi il tasto per avviare il calcolo AI...</div>
+      </div>
+      <button class="btn-ai" id="btnAI" onclick="startAISim()">
+        <span class="btn-inner">
+          <span class="btn-icon">&#9654;</span>
+          AVVIA CALCOLO AI
+        </span>
+        <span class="btn-glow"></span>
+      </button>
+      <div class="progress-wrap" id="progressWrap" style="display:none">
+        <div class="progress-bar" id="progressBar"></div>
+        <div class="progress-label" id="progressLabel">0%</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <span>RTX 4090 COMMAND CENTER &nbsp;|&nbsp; Powered by <span class="neon">CUDA 12</span></span>
+  </footer>
+
+  <script>
+    // ── CALCOLATORE PROFITTO ──
+    const TDP_KW = 0.45; // RTX 4090 = 450W = 0.45 kW
+    const RING_CIRC = 515;
+
+    function getOre()      { return parseFloat(document.getElementById('inputOre').value)      || 0; }
+    function getTariffa()  { return parseFloat(document.getElementById('inputTariffa').value)  || 0; }
+    function getKwh()      { return parseFloat(document.getElementById('inputKwh').value)      || 0; }
+
+    function calcola() {
+      const ore      = getOre();
+      const tariffa  = getTariffa();
+      const kwh      = getKwh();
+
+      const lordo       = ore * tariffa;
+      const elettricita = ore * TDP_KW * kwh;
+      const netto       = lordo - elettricita;
+      const roi         = lordo > 0 ? Math.round((netto / lordo) * 100) : 0;
+
+      // Aggiorna testi
+      document.getElementById('risultatoNetto').textContent = '€' + netto.toFixed(2);
+      document.getElementById('risultatoRoi').textContent   = 'ROI: ' + roi + '%';
+      document.getElementById('bdLordo').textContent        = '€' + lordo.toFixed(2);
+      document.getElementById('bdElettricita').textContent  = '-€' + elettricita.toFixed(2);
+      document.getElementById('bdNetto').textContent        = '€' + netto.toFixed(2);
+
+      const giorni = (ore / 24).toFixed(1);
+      document.getElementById('bdEquiv').textContent = giorni + ' giorni di noleggio';
+
+      // Anello SVG — fill proporzionale al ROI (0–100%)
+      const pct     = Math.max(0, Math.min(roi, 100)) / 100;
+      const offset  = RING_CIRC - pct * RING_CIRC;
+      const ring    = document.getElementById('ringFill');
+      ring.style.strokeDashoffset = offset;
+      ring.style.stroke = netto >= 0 ? 'var(--neon)' : '#ff4466';
+
+      // Colore valore se negativo
+      const valEl = document.getElementById('risultatoNetto');
+      valEl.style.color      = netto >= 0 ? 'var(--neon)' : '#ff4466';
+      valEl.style.textShadow = netto >= 0
+        ? '0 0 8px var(--neon), 0 0 20px var(--neon-glow)'
+        : '0 0 8px #ff4466, 0 0 20px rgba(255,68,102,0.4)';
+
+      // Effetto contatore animato
+      animateValue('risultatoNetto', netto);
+    }
+
+    // Contatore numerico animato
+    function animateValue(id, target) {
+      const el = document.getElementById(id);
+      const start = parseFloat(el.dataset.current || 0);
+      el.dataset.current = target;
+      const diff = target - start;
+      const steps = 20;
+      let step = 0;
+      clearInterval(el._interval);
+      el._interval = setInterval(() => {
+        step++;
+        const val = start + diff * (step / steps);
+        el.textContent = (val >= 0 ? '€' : '-€') + Math.abs(val).toFixed(2);
+        if (step >= steps) { clearInterval(el._interval); el.textContent = (target >= 0 ? '€' : '-€') + Math.abs(target).toFixed(2); }
+      }, 20);
+    }
+
+    function syncSlider() {
+      const v = parseFloat(document.getElementById('inputOre').value) || 1;
+      document.getElementById('sliderOre').value = Math.min(v, 720);
+      calcola();
+    }
+    function syncSliderTariffa() {
+      const v = parseFloat(document.getElementById('inputTariffa').value) || 0.1;
+      document.getElementById('sliderTariffa').value = Math.round(v * 100);
+      calcola();
+    }
+    function syncSliderKwh() {
+      const v = parseFloat(document.getElementById('inputKwh').value) || 0.05;
+      document.getElementById('sliderKwh').value = Math.round(v * 100);
+      calcola();
+    }
+
+    // Collega slider → input
+    document.getElementById('sliderOre').addEventListener('input', function() {
+      document.getElementById('inputOre').value = this.value;
+      calcola();
+    });
+    document.getElementById('sliderTariffa').addEventListener('input', function() {
+      document.getElementById('inputTariffa').value = (this.value / 100).toFixed(2);
+      calcola();
+    });
+    document.getElementById('sliderKwh').addEventListener('input', function() {
+      document.getElementById('inputKwh').value = (this.value / 100).toFixed(2);
+      calcola();
+    });
+
+    // Calcolo iniziale
+    calcola();
+
+    // ── RENDER BENCHMARK CHART ──────────────────────────────
+    const GPUS = [
+      { name: 'RTX 4090',      color: '#00ff88', fps: 420,  isHero: true  },
+      { name: 'RTX 3080',      color: '#00cc66', fps: 180,  isHero: false },
+      { name: 'RTX 2070',      color: '#0099aa', fps: 90,   isHero: false },
+      { name: 'GTX 1060',      color: '#226655', fps: 38,   isHero: false },
+      { name: 'GPU Integrata', color: '#334433', fps: 8,    isHero: false },
+    ];
+
+    const PRESETS = {
+      short:  { label: 'Video 1 min 1080p',    frames: 1 * 60 * 30 * 1,  },
+      medium: { label: 'Film 10 min 4K',        frames: 10 * 60 * 24 * 4, },
+      long:   { label: 'Cortometraggio 30 min 8K', frames: 30 * 60 * 24 * 16, },
+      custom: null,
+    };
+
+    let currentFrames = PRESETS.short.frames;
+    let renderRunning = false;
+
+    function fmtTime(sec) {
+      if (sec < 60)   return sec.toFixed(1) + 's';
+      if (sec < 3600) return (sec / 60).toFixed(1) + ' min';
+      return (sec / 3600).toFixed(2) + ' h';
+    }
+
+    function setPreset(key, btn) {
+      document.querySelectorAll('.preset-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      document.getElementById('renderCustom').style.display = key === 'custom' ? 'flex' : 'none';
+      if (key !== 'custom') {
+        currentFrames = PRESETS[key].frames;
+        buildChart();
+        resetBars();
+      } else {
+        recalcPreset();
+      }
+    }
+
+    function recalcPreset() {
+      const min = parseFloat(document.getElementById('customMin').value) || 1;
+      const res = parseFloat(document.getElementById('customRes').value) || 1;
+      const fps = parseFloat(document.getElementById('customFps').value) || 24;
+      currentFrames = min * 60 * fps * res;
+      buildChart();
+      resetBars();
+    }
+
+    function buildChart() {
+      const maxSec = currentFrames / GPUS[GPUS.length - 1].fps; // slowest
+
+      // Y-axis
+      const yAxis = document.getElementById('chartYaxis');
+      yAxis.innerHTML = '';
+      const steps = [0, 0.25, 0.5, 0.75, 1];
+      steps.forEach(s => {
+        const lbl = document.createElement('div');
+        lbl.className = 'yaxis-label';
+        lbl.textContent = s === 0 ? '0' : fmtTime(maxSec * s);
+        yAxis.appendChild(lbl);
+      });
+
+      // Bars
+      const container = document.getElementById('chartBars');
+      container.innerHTML = '';
+      GPUS.forEach((gpu, i) => {
+        const timeSec = currentFrames / gpu.fps;
+        const pct = (timeSec / maxSec) * 100;
+
+        const row = document.createElement('div');
+        row.className = 'chart-row' + (gpu.isHero ? ' hero-row' : '');
+
+        row.innerHTML = `
+          <div class="chart-row-label">${gpu.name}</div>
+          <div class="chart-bar-track">
+            <div class="chart-bar-fill" id="barFill${i}"
+                 style="width:0%; background:${gpu.color}; box-shadow: 0 0 10px ${gpu.color}55;"
+                 data-target="${pct.toFixed(2)}">
+            </div>
+            <span class="chart-bar-time" id="barTime${i}" style="opacity:0">
+              ${fmtTime(timeSec)}
+            </span>
+          </div>
+        `;
+        container.appendChild(row);
+      });
+
+      document.getElementById('chartBadge').style.opacity = '0';
+      document.getElementById('renderStatus').textContent = '';
+    }
+
+    function resetBars() {
+      GPUS.forEach((_, i) => {
+        const fill = document.getElementById('barFill' + i);
+        const time = document.getElementById('barTime' + i);
+        if (fill) { fill.style.width = '0%'; fill.style.transition = 'none'; }
+        if (time) time.style.opacity = '0';
+      });
+      document.getElementById('chartBadge').style.opacity = '0';
+      const btn = document.getElementById('btnRender');
+      btn.classList.remove('running');
+      btn.querySelector('.btn-render-inner').innerHTML = '<span class="render-icon">&#9654;</span> RENDERIZZA';
+      renderRunning = false;
+    }
+
+    function startRender() {
+      if (renderRunning) return;
+      renderRunning = true;
+      resetBars();
+      renderRunning = true; // reset resets it to false
+
+      const btn = document.getElementById('btnRender');
+      btn.classList.add('running');
+      btn.querySelector('.btn-render-inner').innerHTML = '<span class="render-icon spinning">&#9881;</span> RENDERING...';
+      document.getElementById('renderStatus').textContent = 'Avvio elaborazione frames...';
+
+      const maxSec = currentFrames / GPUS[GPUS.length - 1].fps;
+
+      GPUS.forEach((gpu, i) => {
+        const timeSec  = currentFrames / gpu.fps;
+        const pct      = (timeSec / maxSec) * 100;
+        // stagger: hero bar pops first and is visually faster
+        const delay    = i * 120;
+        const duration = gpu.isHero ? 600 : 900 + i * 200;
+
+        setTimeout(() => {
+          const fill = document.getElementById('barFill' + i);
+          const time = document.getElementById('barTime' + i);
+          if (!fill) return;
+          fill.style.transition = `width ${duration}ms cubic-bezier(0.22, 1, 0.36, 1)`;
+          fill.style.width = pct + '%';
+          setTimeout(() => {
+            if (time) time.style.opacity = '1';
+            if (i === GPUS.length - 1) onRenderComplete();
+          }, duration);
+        }, delay);
+      });
+    }
+
+    function onRenderComplete() {
+      const t4090 = currentFrames / GPUS[0].fps;
+      const tNorm = currentFrames / GPUS[3].fps; // GTX 1060 as "scheda normale"
+      const ratio = (tNorm / t4090).toFixed(1);
+
+      const badge = document.getElementById('chartBadge');
+      document.getElementById('badgeText').innerHTML =
+        `RTX 4090 e <strong class="neon">${ratio}x</strong> piu veloce di una GPU normale`;
+      badge.style.opacity = '1';
+
+      document.getElementById('renderStatus').textContent =
+        `Completato — RTX 4090: ${fmtTime(currentFrames / GPUS[0].fps)} | GTX 1060: ${fmtTime(currentFrames / GPUS[3].fps)}`;
+
+      const btn = document.getElementById('btnRender');
+      btn.classList.remove('running');
+      btn.querySelector('.btn-render-inner').innerHTML = '<span class="render-icon">&#10003;</span> COMPLETATO — RIAVVIA';
+      renderRunning = false;
+    }
+
+    // Init
+    buildChart();
+
+    // ── LIVE CLOCK
+    function updateClock() {
+      const now = new Date();
+      document.getElementById('clock').textContent =
+        now.toLocaleTimeString('it-IT');
+    }
+    setInterval(updateClock, 1000);
+    updateClock();
+
+    // AI Simulation
+    const logs = [
+      "[INIT]      Caricamento modello LLaMA-3 70B...",
+      "[VRAM]      Allocazione 22.4 GB / 24 GB GDDR6X",
+      "[CUDA]      16,384 core attivi — clock 2520 MHz",
+      "[TENSOR]    Tensor Core FP8 abilitati",
+      "[BATCH]     Elaborazione batch size=32",
+      "[FORWARD]   Pass forward: layer 1/80... 20/80... 80/80",
+      "[LOSS]      Loss: 0.4821 → 0.2103 → 0.0894",
+      "[BACKWARD]  Backpropagation completata",
+      "[OPTIM]     AdamW step — LR: 1e-4",
+      "[EPOCH]     Epoch 1/3 completata in 4.2s",
+      "[PERF]      Throughput: 12,400 tokens/sec",
+      "[RESULT]    Accuratezza: 94.7% — Perplexity: 3.21",
+      "[DONE]      Calcolo completato. RTX 4090: ELITE."
+    ];
+
+    let running = false;
+
+    function startAISim() {
+      if (running) return;
+      running = true;
+      const btn = document.getElementById('btnAI');
+      const output = document.getElementById('simOutput');
+      const wrap = document.getElementById('progressWrap');
+      const bar = document.getElementById('progressBar');
+      const label = document.getElementById('progressLabel');
+
+      btn.classList.add('running');
+      btn.querySelector('.btn-inner').innerHTML = '<span class="btn-icon spinning">&#9881;</span> CALCOLO IN CORSO...';
+      output.textContent = '';
+      wrap.style.display = 'flex';
+      bar.style.width = '0%';
+      label.textContent = '0%';
+
+      let i = 0;
+      function nextLog() {
+        if (i >= logs.length) {
+          btn.classList.remove('running');
+          btn.querySelector('.btn-inner').innerHTML = '<span class="btn-icon">&#9654;</span> AVVIA CALCOLO AI';
+          running = false;
+          return;
+        }
+        const pct = Math.round(((i + 1) / logs.length) * 100);
+        bar.style.width = pct + '%';
+        label.textContent = pct + '%';
+        output.textContent = logs[i];
+        output.classList.add('flash');
+        setTimeout(() => output.classList.remove('flash'), 200);
+        i++;
+        setTimeout(nextLog, 320 + Math.random() * 180);
+      }
+      nextLog();
+    }
+  </script>
+
+</body>
+</html>

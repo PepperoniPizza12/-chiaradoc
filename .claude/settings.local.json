@@ -1,0 +1,7 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(start \"C:/Users/gbest/OneDrive/Desktop/MioProgettoAI/Progetto_GPU/index.html\")"
+    ]
+  }
+}
