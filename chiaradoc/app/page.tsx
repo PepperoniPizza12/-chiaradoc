@@ -25,7 +25,7 @@ export default function Home() {
   }
 
   function handleFile(e: React.ChangeEvent<HTMLInputElement>) {
-    const f = e.target.files[0]
+    const f = e.target.files?.[0]
     if (!f) return
     setFile(f)
     const reader = new FileReader()
