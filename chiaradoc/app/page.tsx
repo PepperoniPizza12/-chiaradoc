@@ -1,12 +1,23 @@
 'use client'
 import { useState } from 'react'
 
+interface Result {
+  summary: string
+  keyPoints: string[]
+  rawText: string
+}
+
+interface Answer {
+  q: string
+  a: string
+}
+
 export default function Home() {
-  const [file, setFile] = useState(null)
+  const [file, setFile] = useState<File | null>(null)
   const [loading, setLoading] = useState(false)
-  const [result, setResult] = useState(null)
+  const [result, setResult] = useState<Result | null>(null)
   const [question, setQuestion] = useState('')
-  const [answers, setAnswers] = useState([])
+  const [answers, setAnswers] = useState<Answer[]>([])
 
   async function analyzeDoc(text: string) {
     setLoading(true)
@@ -29,7 +40,7 @@ export default function Home() {
     if (!f) return
     setFile(f)
     const reader = new FileReader()
-    reader.onload = (ev) => analyzeDoc(ev.target.result)
+    reader.onload = (ev) => analyzeDoc(ev.target?.result as string)
     reader.readAsText(f)
   }
 
@@ -63,7 +74,7 @@ export default function Home() {
           <label className="block border-2 border-dashed border-gray-300 rounded-2xl p-12 text-center cursor-pointer hover:border-gray-400 transition-colors bg-white">
             <div className="text-4xl mb-4">📄</div>
             <p className="text-gray-600 font-medium">Clicca per caricare un documento</p>
-            <p className="text-gray-400 text-sm mt-1">TXT, PDF (testo), Word</p>
+            <p className="text-gray-400 text-sm mt-1">TXT, MD</p>
             <input type="file" className="hidden" accept=".txt,.md" onChange={handleFile} />
           </label>
         )}
