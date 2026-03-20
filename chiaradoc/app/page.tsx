@@ -24,7 +24,7 @@ export default function Home() {
     setLoading(false)
   }
 
-  function handleFile(e) {
+  function handleFile(e: React.ChangeEvent<HTMLInputElement>) {
     const f = e.target.files[0]
     if (!f) return
     setFile(f)
