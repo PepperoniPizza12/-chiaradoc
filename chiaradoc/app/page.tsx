@@ -78,13 +78,26 @@ function handleFile(e: React.ChangeEvent<HTMLInputElement>) {
         </div>
 
         {!result && (
-          <label className="block border-2 border-dashed border-gray-300 rounded-2xl p-12 text-center cursor-pointer hover:border-gray-400 transition-colors bg-white">
-            <div className="text-4xl mb-4">📄</div>
-            <p className="text-gray-600 font-medium">Clicca per caricare un documento</p>
-           <p className="text-gray-400 text-sm mt-1">TXT, MD, PDF</p>
-           <input type="file" className="hidden" accept=".txt,.md,.pdf" onChange={handleFile} />
-          </label>
-        )}
+          <label 
+  className="block border-2 border-dashed border-gray-300 rounded-2xl p-12 text-center cursor-pointer hover:border-gray-400 transition-colors bg-white"
+  onDragOver={(e) => e.preventDefault()}
+  onDrop={(e) => {
+    e.preventDefault()
+    const f = e.dataTransfer.files?.[0]
+    if (!f) return
+    setFile(f)
+    setLoading(true)
+    const formData = new FormData()
+    formData.append('file', f)
+    fetch('/api/analyze', {
+      method: 'POST',
+      body: formData
+    })
+      .then(res => res.json())
+      .then(data => { setResult(data); setLoading(false) })
+      .catch(() => { alert('Errore durante l\'analisi'); setLoading(false) })
+  }}
+>
 
         {loading && (
           <div className="text-center py-12">
