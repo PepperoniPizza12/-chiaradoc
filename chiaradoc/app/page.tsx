@@ -81,7 +81,7 @@ function handleFile(e: React.ChangeEvent<HTMLInputElement>) {
           <label className="block border-2 border-dashed border-gray-300 rounded-2xl p-12 text-center cursor-pointer hover:border-gray-400 transition-colors bg-white">
             <div className="text-4xl mb-4">📄</div>
             <p className="text-gray-600 font-medium">Clicca per caricare un documento</p>
-            <p className="text-gray-400 text-sm mt-1">TXT, MD</p>
+           <p className="text-gray-400 text-sm mt-1">TXT, MD, PDF</p>
            <input type="file" className="hidden" accept=".txt,.md,.pdf" onChange={handleFile} />
           </label>
         )}
