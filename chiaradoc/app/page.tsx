@@ -60,7 +60,7 @@ export default function Home() {
     <main className="min-h-screen bg-gray-50">
       <div className="max-w-2xl mx-auto px-4 py-16">
         <div className="text-center mb-12">
-          <h1 className="flex-1 border border-gray-200 rounded-xl px-4 py-2 text-sm text-gray-900 focus:outline-none focus:border-gray-400">
+        <h1 className="text-4xl font-bold text-gray-900 mb-3">ChiaroDoc</h1>
           <p className="text-gray-500 text-lg">Carica un documento burocratico e capisci tutto in secondi</p>
         </div>
 
@@ -118,7 +118,7 @@ export default function Home() {
                   onChange={e => setQuestion(e.target.value)}
                   onKeyDown={e => e.key === 'Enter' && askQuestion()}
                   placeholder="Es. Qual è la scadenza?"
-                  className="flex-1 border border-gray-200 rounded-xl px-4 py-2 text-sm focus:outline-none focus:border-gray-400"
+                  className="flex-1 border border-gray-200 rounded-xl px-4 py-2 text-sm text-gray-900 focus:outline-none focus:border-gray-400"
                 />
                 <button onClick={askQuestion} className="bg-gray-900 text-white px-4 py-2 rounded-xl text-sm hover:bg-gray-700 transition-colors">
                   Chiedi
